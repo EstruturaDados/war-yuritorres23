@@ -15,41 +15,58 @@
 // ============================================================================
 
 // Inclusão das bibliotecas padrão necessárias para entrada/saída, alocação de memória, manipulação de strings e tempo.
-
+#include <stdio.h>
+#include <string.h>
 // --- Constantes Globais ---
 // Definem valores fixos para o número de territórios, missões e tamanho máximo de strings, facilitando a manutenção.
-
+#define Max_territorios 5
+#define Max_Nome 50
+#define Max_Cor 50
 // --- Estrutura de Dados ---
 // Define a estrutura para um território, contendo seu nome, a cor do exército que o domina e o número de tropas.
-
-// --- Protótipos das Funções ---
-// Declarações antecipadas de todas as funções que serão usadas no programa, organizadas por categoria.
-// Funções de setup e gerenciamento de memória:
-// Funções de interface com o usuário:
-// Funções de lógica principal do jogo:
-// Função utilitária:
+typedef struct {
+    char nome[Max_Nome];
+    char cor[Max_Cor];
+    int numeroDeTropas;
+}Territorio;
 
 // --- Função Principal (main) ---
 // Função principal que orquestra o fluxo do jogo, chamando as outras funções em ordem.
 int main() {
-    // 1. Configuração Inicial (Setup):
-    // - Define o locale para português.
-    // - Inicializa a semente para geração de números aleatórios com base no tempo atual.
-    // - Aloca a memória para o mapa do mundo e verifica se a alocação foi bem-sucedida.
-    // - Preenche os territórios com seus dados iniciais (tropas, donos, etc.).
-    // - Define a cor do jogador e sorteia sua missão secreta.
+    Territorio mapa[Max_territorios];
 
-    // 2. Laço Principal do Jogo (Game Loop):
-    // - Roda em um loop 'do-while' que continua até o jogador sair (opção 0) ou vencer.
-    // - A cada iteração, exibe o mapa, a missão e o menu de ações.
-    // - Lê a escolha do jogador e usa um 'switch' para chamar a função apropriada:
-    //   - Opção 1: Inicia a fase de ataque.
-    //   - Opção 2: Verifica se a condição de vitória foi alcançada e informa o jogador.
-    //   - Opção 0: Encerra o jogo.
-    // - Pausa a execução para que o jogador possa ler os resultados antes da próxima rodada.
+    printf("=== Cadastro de Territorios ===\n\n");
 
-    // 3. Limpeza:
-    // - Ao final do jogo, libera a memória alocada para o mapa para evitar vazamentos de memória.
+    for (int i = 0; i < Max_territorios; i++) {
+        printf("Território %d:\n", i + 1);
+
+        // Nome do território
+        printf("Nome: ");
+        fgets(mapa[i].nome, Max_Nome, stdin);
+        mapa[i].nome[strcspn(mapa[i].nome, "\n")] = '\0'; // Remove o '\n'
+
+        // Cor do exército
+        printf("Cor do exército: ");
+        fgets(mapa[i].cor, Max_Cor, stdin);
+        mapa[i].cor[strcspn(mapa[i].cor, "\n")] = '\0';
+
+        // Número de tropas
+        printf("Número de tropas: ");
+        scanf("%d", &mapa[i].numeroDeTropas);
+        getchar(); // Limpa o '\n' deixado pelo scanf
+
+        printf("\n");
+    }
+
+    // Exibe o estado atual do mapa
+    printf("=== Estado Atual do Mapa ===\n");
+    for (int i = 0; i < Max_territorios; i++) {
+        printf("Território %d:\n", i + 1);
+        printf("Nome: %s\n", mapa[i].nome);
+        printf("Cor do exército: %s\n", mapa[i].cor);
+        printf("Número de tropas: %d\n", mapa[i].numeroDeTropas);
+        printf("--------------------------\n");
+    }
 
     return 0;
 }
